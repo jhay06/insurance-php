@@ -14,4 +14,9 @@ class InsuranceAPI
 		error_log($res);
 		return $res;
 	}
+	function pay_insurance($param,$args){
+		$insurancews=new InsuranceWS();
+		$res=$insurancews->pay_insurance($args['input']);
+		return $res;
+	}
 }

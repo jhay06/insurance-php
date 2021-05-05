@@ -12,7 +12,7 @@ class RequestType{
 	const SearchCustomer=20;
 	const GetImageFile=25;
 	const GetFile=29;
-	
+	const TagInsuranceAsPaid=44;	
 }
 
 ?>
