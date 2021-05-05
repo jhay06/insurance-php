@@ -34,19 +34,20 @@ To get the local copy of the PHP library , you need to do below steps.
 8. Go to http://localhost:8000/graphql-playground ( varies depends on php artisan serve)<br/>
 9. All method names of the Queries and Mutations from the schema are the actual function to call in php code under InsuranceWS class 
 <h3>How to use</h3>
+<pre>
 <?php
 <br/>
-  use App\InsuranceAPI\InsuranceWS;<br/>
-  use App\InsuranceAPI\Models\Request\TestNetwork;<br/>
-  $ws=new InsuranceWS();<br/>
-  $req=new TestNetwork();<br/>
-  $req->test='hello world';<br/>
-  $res=$ws->test_network($req);<br/>
-  //get the result<br/>
-  $result=$res->Result;<br/>
-  //get the baseresponse<br/>
-  if($result->type=="success"){<br/>
-    $data=$result->data;<br/>
-  }<br/>
+  use App\InsuranceAPI\InsuranceWS;
+  use App\InsuranceAPI\Models\Request\TestNetwork;
+  $ws=new InsuranceWS();
+  $req=new TestNetwork();
+  $req->test='hello world';
+  $res=$ws->test_network($req);
+  //get the result
+  $result=$res->Result;
+  //get the baseresponse
+  if($result->type=="success")
+    $data=$result->data;
+  }
 ?>
-
+</pre>
