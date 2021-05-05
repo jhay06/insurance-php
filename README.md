@@ -46,7 +46,12 @@ To get the local copy of the PHP library , you need to do below steps.
   $req->test='hello world';
   $res=$ws->test_network($req);
   //get the result
+  
+  
   $result=$res->Result;
+  //for the testnetwork result there's not base response if it succeed you will the message="Ok"
+  
+  //for the actual request there's alwas a baseresponse
   //get the baseresponse
   if($result->type=="success")
     $data=$result->data;
