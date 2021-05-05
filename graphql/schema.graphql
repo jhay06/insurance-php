@@ -59,7 +59,7 @@ type Customer{
 
 }
 type InsuranceTransaction{
-	cocNumber:String
+	COCNumber:String
 	effectiveDate:String
 	terminationDate:String
 	issueDate:String
@@ -99,7 +99,7 @@ type InsuranceConfirmation{
 }
 type CustomerCOCInfo{
 	customer:Customer
-	cocDetailsCollection:[InsuranceTransaction]
+	COCDetailsCollection:[InsuranceTransaction]
 }
 type FileContent{
 	fileContent:String
@@ -180,7 +180,7 @@ type SearchCustomerBaseResponse{
 }
 type SendPurchaseResult{
 	type:String
-	mesasge:String
+	message:String
 	data:[InsuranceTransaction]
 	
 }
@@ -228,6 +228,20 @@ input SendPurchaseInput{
 	productName:String
 	sendEmailNotification:Boolean
 }
+input PaymentDetailsInput{
+	datePaid:String
+	NotificationDate:String
+	numberOfCOCsPaid:Int
+	paymentMethod:String
+	paymentNotes:String
+	paymentOrigin:String
+	paymentReferenceNo:String
+	productAmount:Float
+	referenceNo:String
+	totalAmountPaid:Float
+	transactionCheckNumber:String
+}
+
 type Query{
 	test:String @field(resolver: "TestGraph@test")
 	test_network(input:TestNetwork):BaseTestResponse @field(resolver: "InsuranceAPI@test_network")
@@ -239,4 +253,5 @@ type Query{
 
 type Mutation{
 	send_purchase(input:SendPurchaseInput):SendPurchaseBaseResponse @field(resolver: "InsuranceAPI@send_purchase")
+	pay_insurance(input:PaymentDetailsInput):SendPurchaseBaseResponse @field(resolver: "InsuranceAPI@pay_insurance")
 }
