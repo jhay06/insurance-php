@@ -1,0 +1,242 @@
+"A date string with format `Y-m-d`, e.g. `2011-05-23`."
+scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
+
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+
+type Category{
+	id:ID
+	categoryName:String
+	iconPath:String
+
+}
+
+input CustomerInput{
+        insuranceCustomerNo:String
+        firstName:String
+        middleName:String
+        lastName:String
+        dateOfBirth:String
+        placeOfBirth:String
+        gender:String
+        validIDPresented:String
+        validIDNumber:String
+        mobileNumber:String
+        landline:String
+        emailAddress:String
+        address:String
+        city:String
+        zipCode:String
+        nationality:String
+        civilStatus:String
+        sourceOfFunds:String
+        natureOfWork:String
+
+
+}
+type Customer{
+	insuranceCustomerNo:String
+	firstName:String
+	middleName:String
+	lastName:String
+	dateOfBirth:String
+	placeOfBirth:String
+	gender:String
+	validIDPresented:String
+	validIDNumber:String
+	mobileNumber:String
+	landline:String
+	emailAddress:String
+	address:String
+	city:String
+	zipCode:String
+	nationality:String
+	civilStatus:String
+	sourceOfFunds:String
+	natureOfWork:String
+
+
+}
+type InsuranceTransaction{
+	cocNumber:String
+	effectiveDate:String
+	terminationDate:String
+	issueDate:String
+	referenceNumber:String
+	referenceCode:String
+	productCode:String
+	providerCode:String
+	partnerCode:String
+	platformName:String
+	service:String
+	transactionSource:String
+	cocStatus:String
+	transactionType:String
+	address:String
+	city:String
+	zipCode:String
+	beneficiaryName:String
+	beneficiaryRelationship:String
+	beneficiaryBirthday:String
+	beneficiaryContactNo:String
+	guardianName:String
+	guardianRelationship:String
+	guardianBirthday:String
+	guardianContactNo:String
+	isPaid:Boolean
+	isActive:Boolean
+
+}
+type InsuranceConfirmation{
+	isPaid:Boolean
+	isPurchased:Boolean
+	canResend:Boolean
+	insuranceCollection:[InsuranceTransaction]
+	referenceNo:String
+	transactionNumber:String
+
+}
+type CustomerCOCInfo{
+	customer:Customer
+	cocDetailsCollection:[InsuranceTransaction]
+}
+type FileContent{
+	fileContent:String
+	
+}
+
+input OtherInformationInput{
+	birthDay:String
+	contactNo:String
+	fullName:String
+	relationship:String
+
+}
+type Product{
+	id:ID
+	iconPath:String
+	productName:String
+	categoryId:Int
+	providerId:Int
+	partnerId:Int
+	maxUnit:Int
+	integrationId:Int
+	sellingPrice:Float
+	
+
+}
+
+type StorageFile{
+   fileContent:FileContent
+}
+
+type TestNetworkResult{
+	message:String
+}
+
+type CategoryResult{
+	type:String
+	message:String
+	data:[Category]
+	totalPage:Int
+}
+
+
+type CategoryBaseResponse{
+	ResponseDate:String
+	Result:CategoryResult
+}
+
+type ProductResult{
+	type:String
+	message:String
+	data:[Product]
+	totalPage:Int
+}
+type ProductBaseResponse{
+	ResponseDate:String
+	Result:ProductResult
+}
+type StorageFileResult{
+	type:String
+	message:String
+	data:FileContent
+	
+}
+
+type StorageFileBaseResponse{
+	ResponseDate:String
+	Result:StorageFileResult
+}
+type SearchCustomerResult{
+	type:String
+	message:String
+	data:Customer
+}
+type SearchCustomerBaseResponse{
+	ResponseDate:String
+	Result:SearchCustomerResult
+}
+type SendPurchaseResult{
+	type:String
+	mesasge:String
+	data:[InsuranceTransaction]
+	
+}
+type SendPurchaseBaseResponse{
+	ResponseDate:String
+	Result:SendPurchaseResult
+}
+
+type BaseTestResponse{
+	ResponseDate:String
+	Result:TestNetworkResult
+}
+input TestNetwork{
+	test:String
+}
+input GetCategoryListInput{
+	page:Int
+	limit:Int
+}
+input GetProductListInput{
+	categoryId:Int
+	page:Int
+	limit:Int
+}
+input GetStorageFileInput{
+	fileType:Int
+	fileName:String
+}
+
+input SearchCustomerDetailInput{
+	dateOfBirth:String
+	firstName:String
+	middleName:String
+	lastName:String
+}
+input SendPurchaseInput{
+	"if this"
+	isPaid:Boolean
+	unit:Int
+	integrationId:Int
+	referenceNo:String
+	customer:CustomerInput
+	beneficiary:OtherInformationInput
+	guardian:OtherInformationInput
+	productName:String
+	sendEmailNotification:Boolean
+}
+type Query{
+	test:String @field(resolver: "TestGraph@test")
+	test_network(input:TestNetwork):BaseTestResponse @field(resolver: "InsuranceAPI@test_network")
+	get_category_list(input:GetCategoryListInput!):CategoryBaseResponse @field(resolver: "InsuranceAPI@get_category_list")
+	get_product_list(input:GetProductListInput):ProductBaseResponse @field(resolver: "InsuranceAPI@get_product_list")
+	get_storage_file(input:GetStorageFileInput):StorageFileBaseResponse @field(resolver: "InsuranceAPI@get_storage_file")
+	search_customer_details(input:SearchCustomerDetailInput):SearchCustomerBaseResponse @field(resolver: "InsuranceAPI@search_customer_details")
+}
+
+type Mutation{
+	send_purchase(input:SendPurchaseInput):SendPurchaseBaseResponse @field(resolver: "InsuranceAPI@send_purchase")
+}
