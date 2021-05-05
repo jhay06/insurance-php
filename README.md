@@ -23,7 +23,7 @@ To get the local copy of the PHP library , you need to do below steps.
 7. Run config clear (php artisan config:clear)<br/>
 8. Run autoload (composer dump-autoload)<br/>
 <h3>Checking</h3>
-* <i>Note: Insurance PHP is already connected to CLIB Insurance API , GraphQL is not required . Steps below are for testing purposes only</i><br/>
+* <i>Note: Insurance PHP is already connected to CLIB Insurance API , GraphQL is not require and the Steps below are for testing purposes only</i><br/>
 1. Install lighthouse (composer require nuwave/lighthouse)<br/>
 2. Publish the lighthouse schema (php artisan vendor:publish --tag=lighthouse-schema)<br/>
 3. Go to insurance-php cloned folder (cd insurance-php)<br/>
