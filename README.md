@@ -27,13 +27,14 @@ To get the local copy of the PHP library , you need to do below steps.
 * <i>Note: Insurance PHP is already connected to CLIB Insurance API , GraphQL is not require and the Steps below are for testing purposes only</i><br/>
 1. Install lighthouse (composer require nuwave/lighthouse)<br/>
 2. Publish the lighthouse schema (php artisan vendor:publish --tag=lighthouse-schema)<br/>
-3. Go to insurance-php cloned folder (cd insurance-php)<br/>
-4. copy the graphql folder to the root folder of your laravel project (cp graphql /path/to/laravel-project)<br/>
-5. Go back to your laravel project <br/>
-6. You may need to autoload again (composer dump-autoload)<br/>
-7. run the server (php artisan serve)<br/>
-8. Go to http://localhost:8000/graphql-playground ( varies depends on php artisan serve)<br/>
-9. All method names of the Queries and Mutations from the schema are the actual function to call in php code under InsuranceWS class 
+3. Install the laravel-graphql-playground (composer require mll-lab/laravel-graphql-playground)
+5. Go to insurance-php cloned folder (cd insurance-php)<br/>
+6. copy the graphql folder to the root folder of your laravel project (cp graphql /path/to/laravel-project)<br/>
+7. Go back to your laravel project <br/>
+8. You may need to autoload again (composer dump-autoload)<br/>
+9. run the server (php artisan serve)<br/>
+10. Go to http://localhost:8000/graphql-playground ( varies depends on php artisan serve)<br/>
+11. All method names of the Queries and Mutations from the schema are the actual function to call in php code under InsuranceWS class 
 <h3>How to use</h3>
 <pre>
 <? php
