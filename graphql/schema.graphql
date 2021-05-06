@@ -13,6 +13,7 @@ type Category{
 }
 
 input CustomerInput{
+	
         insuranceCustomerNo:String
         firstName:String
         middleName:String
@@ -64,28 +65,28 @@ type InsuranceTransaction{
 	terminationDate:String
 	issueDate:String
 	referenceNumber:String
-	referenceCode:String
-	productCode:String
-	providerCode:String
-	partnerCode:String
-	platformName:String
-	service:String
-	transactionSource:String
-	cocStatus:String
-	transactionType:String
-	address:String
-	city:String
-	zipCode:String
-	beneficiaryName:String
-	beneficiaryRelationship:String
-	beneficiaryBirthday:String
-	beneficiaryContactNo:String
-	guardianName:String
-	guardianRelationship:String
-	guardianBirthday:String
-	guardianContactNo:String
-	isPaid:Boolean
-	isActive:Boolean
+#	referenceCode:String
+#	productCode:String
+#	providerCode:String
+#	partnerCode:String
+#	platformName:String
+#	service:String
+#	transactionSource:String
+#	cocStatus:String
+#	transactionType:String
+#	address:String
+#	city:String
+#	zipCode:String
+#	beneficiaryName:String
+#	beneficiaryRelationship:String
+#	beneficiaryBirthday:String
+#	beneficiaryContactNo:String
+#	guardianName:String
+#	guardianRelationship:String
+#	guardianBirthday:String
+#	guardianContactNo:String
+#	isPaid:Boolean
+#	isActive:Boolean
 
 }
 type InsuranceConfirmation{
@@ -193,6 +194,20 @@ type BaseTestResponse{
 	ResponseDate:String
 	Result:TestNetworkResult
 }
+
+input VehicleInfoInput{
+	chassisNo:String!
+	color:String!
+	engineNo:String!
+	brand:String!
+	model:String!
+	mvfileno:String!
+	plateNumber:String!
+	regType:String!
+	vehicleType:String!
+	vehicleUsage:String!
+	year:String!
+}
 input TestNetwork{
 	test:String
 }
@@ -217,17 +232,29 @@ input SearchCustomerDetailInput{
 	lastName:String
 }
 input SendPurchaseInput{
-	"if this"
+	"Set this as true if the transaction is already paid, (in CTPL this should be false)"
 	isPaid:Boolean
+	"if CTPL should be =1"
 	unit:Int
+	"obtain in product list"
 	integrationId:Int
+	"required"
 	referenceNo:String
-	customer:CustomerInput
-	beneficiary:OtherInformationInput
+	"required"
+	customer:CustomerInput!
+	"required"
+	beneficiary:OtherInformationInput!
+	"required if the customer is below 18 years old"
 	guardian:OtherInformationInput
+	"required in CTPL"
+	vehicleInfo:VehicleInfoInput
+	"required"
 	productName:String
-	sendEmailNotification:Boolean
+	isCTPL:Boolean
+	
 }
+
+
 input PaymentDetailsInput{
 	datePaid:String
 	NotificationDate:String
