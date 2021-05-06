@@ -9,7 +9,10 @@ namespace PurchaseRequest{
 	public $beneficiary;
 	public $guardian;
 	public $productName;
+	public $vehicleInfo;
+	
 	public $sendEmailNotification;
+	public $isCTPL;
 
 }
 
