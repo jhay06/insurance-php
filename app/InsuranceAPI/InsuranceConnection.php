@@ -24,8 +24,37 @@ class InsuranceConnection{
 		$this->private_key_path=$env_var['private_key_path'];		
 	
 	}
-
 	function get_response($request,$requestType,$payload){
+		$this->private_key=Storage::get($this->private_key_path);
+		$fullurl=$this->host.$this->endpoint;
+		$fullrequest=new BaseRequest();
+		$pascalCamel=new PascalAndCamel();
+		$fullrequest->ApiKey=$this->platformkey;
+		$fullrequest->Request=json_encode($request);
+		$fullrequest->RequestType=$requestType;
+		$json_request=json_encode($fullrequest);
+		$token=JWT::encode($payload,$this->private_key,'RS256');
+		$sslArray=array(
+			"ssl"=>array(
+				"verify_peer"=>false,
+				"verify_peer_name"=>false
+			),
+			"http"=>array(
+				"method"=>"POST",
+				"header"=>"Content-Type: application/json;\r\n".
+					"Authorization: Bearer ".$token."\r\n".
+					"Content-Length: ".strlen($json_request)."\r\n".
+					"X-API-Key: ".$this->xapikey,
+				"content"=>$json_request
+				
+			)
+		);
+		$context=stream_context_create($sslArray);
+		$res=file_get_contents($fullurl,false,$context);
+		error_log($res);
+		return $res;
+	}
+	function get_response_old($request,$requestType,$payload){
 		$this->private_key=Storage::get($this->private_key_path);
 		$fullurl=$this->host.$this->endpoint;
 		error_log($fullurl);
