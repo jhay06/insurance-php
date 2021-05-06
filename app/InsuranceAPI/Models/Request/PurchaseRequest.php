@@ -1,6 +1,6 @@
 <?php 
 
-namespace SendPurchaseRequest{
+namespace PurchaseRequest{
 	public $isPaid;
 	public $unit;
 	public $integrationId;
