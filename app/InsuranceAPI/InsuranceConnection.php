@@ -24,7 +24,7 @@ class InsuranceConnection{
 		$this->private_key_path=$env_var['private_key_path'];		
 	
 	}
-	function get_response($request,$requestType,$payload){
+	function get_response_old($request,$requestType,$payload){
 		$this->private_key=Storage::get($this->private_key_path);
 		$fullurl=$this->host.$this->endpoint;
 		$fullrequest=new BaseRequest();
@@ -54,7 +54,7 @@ class InsuranceConnection{
 		error_log($res);
 		return $res;
 	}
-	function get_response_old($request,$requestType,$payload){
+	function get_response($request,$requestType,$payload){
 		$this->private_key=Storage::get($this->private_key_path);
 		$fullurl=$this->host.$this->endpoint;
 		error_log($fullurl);
