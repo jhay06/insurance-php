@@ -44,7 +44,8 @@ class InsuranceConnection{
 				"header"=>"Content-Type: application/json;\r\n".
 					"Authorization: Bearer ".$token."\r\n".
 					"Content-Length: ".strlen($json_request)."\r\n".
-					"X-API-Key: ".$this->xapikey,
+					"X-API-Key: ".$this->xapikey."\r\n".
+					"User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13",
 				"content"=>$json_request
 				
 			)
@@ -61,12 +62,13 @@ class InsuranceConnection{
 		$curl=curl_init();
 		curl_setopt($curl,CURLOPT_URL,$fullurl);
 		curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
+		curl_setopt($curl,CURLOPT_USERAGENT,'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
 		$token=JWT::encode($payload,$this->private_key,'RS256');
 		$header=array('Content-Type:application/json','accept: application/json',
 			'Authorization: Bearer '.$token, 'X-API-Key: '.$this->xapikey);
 		//$header['Authorization']='Bearer '.$token;
 		//$header['X-API-Key']=$this->xapikey;
-		error_log(json_encode($header));		
+				
 		
 		$pascalCamel=new PascalAndCamel();
 		$request=$pascalCamel->fix($request);
@@ -75,7 +77,7 @@ class InsuranceConnection{
 		$fullrequest->ApiKey=$this->platformkey;
 		$fullrequest->Request=json_encode($request);
 		$fullrequest->RequestType=$requestType;
-	
+		
 		if($this->env == 'ST'){
 			curl_setopt($curl,CURLOPT_SSL_VERIFYHOST,0);
 			curl_setopt($curl,CURLOPT_SSL_VERIFYPEER,0);
@@ -83,6 +85,7 @@ class InsuranceConnection{
 		curl_setopt($curl,CURLOPT_HTTPHEADER,$header);
 		
 		$data=json_encode($fullrequest);
+		error_log($data);
 		curl_setopt($curl,CURLOPT_CONNECTTIMEOUT,5000);
 		curl_setopt($curl,CURLOPT_TIMEOUT,5000);
 		curl_setopt($curl,CURLOPT_COOKIESESSION,true);

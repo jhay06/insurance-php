@@ -1,6 +1,6 @@
 <?php 
 
-namespace PurchaseRequest{
+namespace SendPurchaseRequest{
 	public $isPaid;
 	public $unit;
 	public $integrationId;
@@ -9,10 +9,8 @@ namespace PurchaseRequest{
 	public $beneficiary;
 	public $guardian;
 	public $productName;
-	public $vehicleInfo;
-	
 	public $sendEmailNotification;
-	public $isCTPL;
+ 	public $isCTPL;
 
 }
 
