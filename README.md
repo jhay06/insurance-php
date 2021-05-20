@@ -12,6 +12,7 @@ To get the local copy of the PHP library , you need to do below steps.
   <li>firebase/php-jwt</li>
   <li>mll-lab/laravel-graphql-playground (optional) for testing purposes only</li>
   <li>nuwave/lighthouse (optional) for testing purposes only </li>
+  <li>guzzlehttp/guzzle </li>
 </ul>
 <h3>Installation</h3>
 1. Clone the repo ( git clone https://github.com/jhay06/insurance-php)<br/>
@@ -21,8 +22,9 @@ To get the local copy of the PHP library , you need to do below steps.
 5. Copy the storage folder to your laravel root project folder (cp storage /path/to/laravel-project)<br/>
 6. Go to your laravel-project (cd /path/to/laravel-project)<br/>
 7. Install php-jwt via composer (composer require firebase/php-jwt)<br/>
-8. Run config clear (php artisan config:clear)<br/>
-9. Run autoload (composer dump-autoload)<br/>
+8. Install guzzlehttp via composer (composer require guzzlehttp/guzzle) <br/>
+9. Run config clear (php artisan config:clear)<br/>
+10. Run autoload (composer dump-autoload)<br/>
 <h3>Checking</h3>
 * <i>Note: Insurance PHP is already connected to CLIB Insurance API , GraphQL is not require and the Steps below are for testing purposes only</i><br/>
 1. Install lighthouse (composer require nuwave/lighthouse)<br/>
