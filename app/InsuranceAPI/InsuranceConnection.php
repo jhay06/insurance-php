@@ -1,5 +1,7 @@
 <?php
 namespace App\InsuranceAPI;
+use GuzzleHttp\Client;
+use GuzzleHttp\Cookie\FileCookieJar;
 use App\InsuranceAPI\Models\Request\BaseRequest;
 use App\InsuranceAPI\Models\Enums;
 use App\InsuranceAPI\Utils\PascalAndCamel;
@@ -24,7 +26,40 @@ class InsuranceConnection{
 		$this->private_key_path=$env_var['private_key_path'];		
 	
 	}
-	function get_response_old($request,$requestType,$payload){
+
+	function get_response($request,$requestType,$payload){
+        $this->private_key=Storage::get($this->private_key_path);
+		$fullurl=$this->host.$this->endpoint;
+		$fullrequest=new BaseRequest();
+		$pascalCamel=new PascalAndCamel();
+		$fullrequest->ApiKey=$this->platformkey;
+		$fullrequest->Request=json_encode($request);
+		$fullrequest->RequestType=$requestType;
+		$json_request=json_encode($fullrequest);
+		$token=JWT::encode($payload,$this->private_key,'RS256');
+        $cookieFile="cookie.txt";
+        $cookieJar=new FileCookieJar($cookieFile,TRUE);
+        $client=new \GuzzleHttp\Client([
+            'base_uri'=>$this->host,
+            'verify'=>false,
+            'cookies'=>$cookieJar
+            
+        ]);
+        $response=$client->request('POST',$this->endpoint,[
+            'json'=>$fullrequest,
+            'headers'=>[
+                "Authorization"=>"Bearer ".$token,
+                "X-API-Key"=>$this->xapikey,
+                "User-Agent"=>"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36",
+                "accept"=>"*/*",
+                "Content-Type"=>"application/json",
+                "Accept-Encoding"=>"gzip,deflate, br"
+            ]
+        ]);
+        $body=$response->getBody();
+        return $body;
+	}
+	function get_response_old1($request,$requestType,$payload){
 		$this->private_key=Storage::get($this->private_key_path);
 		$fullurl=$this->host.$this->endpoint;
 		$fullrequest=new BaseRequest();
@@ -41,11 +76,11 @@ class InsuranceConnection{
 			),
 			"http"=>array(
 				"method"=>"POST",
-				"header"=>"Content-Type: application/json;\r\n".
+				"header"=>"User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36\r\n".
+					"Content-Type: application/json\r\n".
 					"Authorization: Bearer ".$token."\r\n".
-					"Content-Length: ".strlen($json_request)."\r\n".
-					"X-API-Key: ".$this->xapikey."\r\n".
-					"User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13",
+					"X-API-Key: ".$this->xapikey,
+				"ignore_errors"=>true,
 				"content"=>$json_request
 				
 			)
@@ -55,12 +90,12 @@ class InsuranceConnection{
 		error_log($res);
 		return $res;
 	}
-	function get_response($request,$requestType,$payload){
+	function get_response_old($request,$requestType,$payload){
 		$this->private_key=Storage::get($this->private_key_path);
 		$fullurl=$this->host.$this->endpoint;
 		error_log($fullurl);
 		$curl=curl_init();
-		$cookies='._cookies.txt';
+		$cookies="cookies.txt";
 		curl_setopt($curl,CURLOPT_COOKIEJAR,$cookies);
 		curl_setopt($curl,CURLOPT_COOKIEFILE,$cookies);
 		curl_setopt($curl,CURLOPT_URL,$fullurl);
