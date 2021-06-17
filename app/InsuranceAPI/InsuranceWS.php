@@ -41,13 +41,28 @@ class InsuranceWS{
 		$res=$this->con->get_response($request,InsuranceType::SearchCustomer,$this->payload);
 		return $this->parseResponse($res);
 	}
-	function send_purchase($request){
-		 $this->payload["ActionDetail"]="Purchasing Insurance Product";
+	function send_purchase_common($request){
+		$this->payload["ActionDetail"]="Purchasing Insurance Product";
 		$res=$this->con->get_response($request,InsuranceType::SendPurchase,$this->payload);
 		return $this->parseResponse($res);
 	}
-	function pay_insurance($request){
+	function send_purchase_ctpl($request){
+		$request['isPaid']=false;
+		$request['unit']=1;
+		$this->payload["ActionDetail"]="Purchassing Insurance CTPL";
+		$res=$this->con->get_response($request,InsuranceType::SendPurchase,$this->payload);
+		return $this->parseResponse($res);
+
+	}
+	function pay_insurance_common($request){
 		$this->payload['ActionDetail']="Tagging Insurance Product as Paid";
+		$res=$this->con->get_response($request,InsuranceType::TagInsuranceAsPaid,$this->payload);
+		return $this->parseResponse($res);
+	}
+	function pay_insurance_ctpl($request){
+		$request['isCTPL']=true;
+		$request['numberOfCOCsPaid']=1;
+		$this->payload['ActionDetail']="Tagging CTPL Insurance Product as Paid";
 		$res=$this->con->get_response($request,InsuranceType::TagInsuranceAsPaid,$this->payload);
 		return $this->parseResponse($res);
 	}

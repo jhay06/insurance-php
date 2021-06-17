@@ -8,15 +8,25 @@ class InsuranceAPI
      * @param  null  $_
      * @param  array<string, mixed>  $args
      */
-	function send_purchase($param,$args){
+	function send_purchase_common($param,$args){
 		$insurancews=new InsuranceWS();
-		$res=$insurancews->send_purchase($args['input']);
-		error_log($res);
+		$res=$insurancews->send_purchase_common($args['input']);
+		
 		return $res;
 	}
-	function pay_insurance($param,$args){
+	function send_purchase_ctpl($param,$args){
 		$insurancews=new InsuranceWS();
-		$res=$insurancews->pay_insurance($args['input']);
+		$res=$insurancews->send_purchase_ctpl($args['input']);
+		return $res;
+	}
+	function pay_insurance_common($param,$args){
+		$insurancews=new InsuranceWS();
+		$res=$insurancews->pay_insurance_common($args['input']);
+		return $res;
+	}
+	function pay_insurance_ctpl($param,$args){
+		$insurancews=new InsuranceWS();
+		$res=$insurancews->pay_insurance_ctpl($args['input']);
 		return $res;
 	}
 }

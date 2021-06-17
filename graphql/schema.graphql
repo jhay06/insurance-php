@@ -89,6 +89,14 @@ type InsuranceTransaction{
 #	isActive:Boolean
 
 }
+type CTPLTransaction{
+	effectiveDate:String
+	terminationDate:String
+	COCNumber:String
+	policyNumber:String
+	authenticationNumber:String
+
+}
 type InsuranceConfirmation{
 	isPaid:Boolean
 	isPurchased:Boolean
@@ -185,6 +193,15 @@ type SendPurchaseResult{
 	data:[InsuranceTransaction]
 	
 }
+type SendCTPLResult{
+	type:String
+	message:String
+	data:CTPLTransaction
+}
+type SendCTPLPurchaseBaseResponse{
+	ResponseDate:String
+	Result:SendCTPLResult
+}
 type SendPurchaseBaseResponse{
 	ResponseDate:String
 	Result:SendPurchaseResult
@@ -231,7 +248,15 @@ input SearchCustomerDetailInput{
 	middleName:String
 	lastName:String
 }
-input SendPurchaseInput{
+input SendCTPLPurchaseInput{
+	integrationId:Int
+	referenceNo:String
+	customer:CustomerInput!
+	beneficiary:OtherInformationInput
+	guardian:OtherInformationInput
+	productName:String
+}
+input SendPurchaseCommonInput{
 	"Set this as true if the transaction is already paid, (in CTPL this should be false)"
 	isPaid:Boolean
 	"if CTPL should be =1"
@@ -243,19 +268,29 @@ input SendPurchaseInput{
 	"required"
 	customer:CustomerInput!
 	"required"
-	beneficiary:OtherInformationInput!
+	beneficiary:OtherInformationInput
 	"required if the customer is below 18 years old"
 	guardian:OtherInformationInput
-	"required in CTPL"
-	vehicleInfo:VehicleInfoInput
 	"required"
 	productName:String
-	isCTPL:Boolean
+
 	
 }
 
-
-input PaymentDetailsInput{
+input CTPLPaymentDetailsInput{
+	datePaid:String
+	notificationDate:String
+	paymentMethod:String
+	paymentNotes:String
+	paymentOrigin:String
+	paymentReferenceno:String
+	productAmount:Float
+	referenceNo:String
+	totalAmountPaid:Float
+	transactionCheckNumber:String
+	vehicleInfo:VehicleInfoInput!
+}
+input CommonPaymentDetailsInput{
 	datePaid:String
 	NotificationDate:String
 	numberOfCOCsPaid:Int
@@ -267,6 +302,7 @@ input PaymentDetailsInput{
 	referenceNo:String
 	totalAmountPaid:Float
 	transactionCheckNumber:String
+	
 }
 
 type Query{
@@ -279,6 +315,8 @@ type Query{
 }
 
 type Mutation{
-	send_purchase(input:SendPurchaseInput):SendPurchaseBaseResponse @field(resolver: "InsuranceAPI@send_purchase")
-	pay_insurance(input:PaymentDetailsInput):SendPurchaseBaseResponse @field(resolver: "InsuranceAPI@pay_insurance")
+	send_purchase_common(input:SendPurchaseCommonInput): SendPurchaseBaseResponse @field(resolver: "InsuranceAPI@send_purchase_common")
+	send_purchase_ctpl(input:SendCTPLPurchaseInput):SendPurchaseBaseResponse @field(resolver: "InsuranceAPI@send_purchase_ctpl")
+	pay_insurance_common(input:CommonPaymentDetailsInput):SendPurchaseBaseResponse @field(resolver: "InsuranceAPI@pay_insurance_common")
+	pay_insurance_ctpl(input:CTPLPaymentDetailsInput):SendCTPLPurchaseBaseResponse @field(resolver: "InsuranceAPI@pay_insurance_ctpl")
 }
