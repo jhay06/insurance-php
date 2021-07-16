@@ -8,11 +8,13 @@ class InsuranceWS{
 	private $con;
 	private $payload;
 	function __construct(){
+		
 		$this->payload=array("AccessDate"=>date('m/d/Y h:i:s'),
 		"AppVersion"=>"v1.0",
 		"AppName"=>"Multisys Web",
-		"IPAddress"=>$_SERVER['REMOTE_ADDR']);
-			
+		"IPAddress"=>$_SERVER['REMOTE_ADDR'],
+		"MacAddress"=>"");
+					
 		$this->con=new InsuranceConnection();
 	}
 	function test_network($request){
